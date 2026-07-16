@@ -19,7 +19,7 @@ DATASETS="librispeech:test.clean" \
 bash api/run_api.sh
 ```
 
-Generic OpenAI-compatible `/v1/audio/transcriptions` endpoint:
+Generic OpenAI-compatible `/v1` endpoint:
 ```bash
 V1_BASE_URL=http://localhost:9001/v1 \
 V1_API_KEY=not-needed \
@@ -29,7 +29,9 @@ bash api/run_api.sh
 ```
 
 `V1_BASE_URL` may be provided with or without the trailing `/v1`;
-`V1_ENDPOINT` is accepted as an alias.
+`V1_ENDPOINT` is accepted as an alias. The v1 provider defaults to
+chat-completions audio input, matching the SPREDS eval settings. Set
+`V1_REQUEST_MODE=transcription` to use `/v1/audio/transcriptions`.
 Local results are written under `api/results/`, which is gitignored.
 
 Full run with bucket upload:

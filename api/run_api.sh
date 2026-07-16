@@ -84,6 +84,11 @@ for model_cfg in "${MODEL_CONFIGS[@]}"; do
             -e V1_BASE_URL="${V1_BASE_URL:-}" \
             -e V1_ENDPOINT="${V1_ENDPOINT:-}" \
             -e V1_API_KEY="${V1_API_KEY:-}" \
+            -e V1_REQUEST_MODE="${V1_REQUEST_MODE:-}" \
+            -e V1_CHAT_PROMPT="${V1_CHAT_PROMPT:-}" \
+            -e V1_MAX_TOKENS="${V1_MAX_TOKENS:-}" \
+            -e V1_TOP_P="${V1_TOP_P:-}" \
+            -e V1_SEED="${V1_SEED:-}" \
             -e OPENAI_API_KEY="${OPENAI_API_KEY:-}" \
             -e ASSEMBLYAI_API_KEY="${ASSEMBLYAI_API_KEY:-}" \
             -e ELEVENLABS_API_KEY="${ELEVENLABS_API_KEY:-}" \

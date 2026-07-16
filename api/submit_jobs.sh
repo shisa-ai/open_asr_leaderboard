@@ -6,6 +6,7 @@
 #   V1_BASE_URL=http://localhost:9001/v1 \
 #   V1_ENDPOINT=http://localhost:9001/v1 \
 #   V1_API_KEY=... \
+#   V1_REQUEST_MODE=chat \
 #   ASSEMBLYAI_API_KEY=... \
 #   ELEVENLABS_API_KEY=... \
 #   REVAI_API_KEY=... \
@@ -89,6 +90,11 @@ for model_cfg in "${MODEL_CONFIGS[@]}"; do
             --env V1_BASE_URL="$V1_BASE_URL" \
             --env V1_ENDPOINT="$V1_ENDPOINT" \
             --env V1_API_KEY="$V1_API_KEY" \
+            --env V1_REQUEST_MODE="$V1_REQUEST_MODE" \
+            --env V1_CHAT_PROMPT="$V1_CHAT_PROMPT" \
+            --env V1_MAX_TOKENS="$V1_MAX_TOKENS" \
+            --env V1_TOP_P="$V1_TOP_P" \
+            --env V1_SEED="$V1_SEED" \
             --env OPENAI_API_KEY="$OPENAI_API_KEY" \
             --env ASSEMBLYAI_API_KEY="$ASSEMBLYAI_API_KEY" \
             --env ELEVENLABS_API_KEY="$ELEVENLABS_API_KEY" \

@@ -76,6 +76,57 @@ class V1ProviderTests(unittest.TestCase):
         self.assertEqual(module.normalize_base_url("http://localhost:9001"), "http://localhost:9001/v1")
         self.assertEqual(module.normalize_base_url("http://localhost:9001/v1/"), "http://localhost:9001/v1")
 
+    def test_chat_request_mode_uses_spreds_style_audio_url_payload(self):
+        _import_providers()
+        module = importlib.import_module("api.providers.v1_provider")
+        client_inits = []
+        chat_calls = []
+
+        class FakeMessage:
+            content = " hello world "
+
+        class FakeChoice:
+            message = FakeMessage()
+
+        class FakeChatCompletions:
+            def create(self, **kwargs):
+                chat_calls.append(kwargs)
+                return types.SimpleNamespace(choices=[FakeChoice()])
+
+        class FakeChat:
+            completions = FakeChatCompletions()
+
+        class FakeOpenAI:
+            def __init__(self, **kwargs):
+                client_inits.append(kwargs)
+                self.chat = FakeChat()
+
+        sample = {"row": {"audio": [{"src": "https://example.test/audio.wav"}]}}
+        with patch.dict(os.environ, {"V1_BASE_URL": "http://localhost:9001"}):
+            with patch.object(module, "OpenAI", FakeOpenAI):
+                text = module.V1Provider().transcribe(
+                    "shisa-ai/shisa-asr-v0.94b",
+                    None,
+                    sample=sample,
+                    use_url=True,
+                )
+
+        self.assertEqual(text, "hello world")
+        self.assertEqual(client_inits, [{"base_url": "http://localhost:9001/v1", "api_key": "not-needed"}])
+        self.assertEqual(len(chat_calls), 1)
+        request = chat_calls[0]
+        self.assertEqual(request["model"], "shisa-ai/shisa-asr-v0.94b")
+        self.assertEqual(request["temperature"], 0.0)
+        self.assertEqual(request["top_p"], 1.0)
+        self.assertEqual(request["seed"], 42)
+        self.assertEqual(request["max_tokens"], 1024)
+        content = request["messages"][0]["content"]
+        self.assertEqual(content[0], {"type": "text", "text": "Transcribe the audio clip into text."})
+        self.assertEqual(
+            content[1],
+            {"type": "audio_url", "audio_url": {"url": "https://example.test/audio.wav"}},
+        )
+
     def test_transcription_request_uses_configured_v1_endpoint(self):
         _import_providers()
         module = importlib.import_module("api.providers.v1_provider")
@@ -98,7 +149,14 @@ class V1ProviderTests(unittest.TestCase):
         with tempfile.NamedTemporaryFile(suffix=".wav") as audio_file:
             audio_file.write(b"RIFF")
             audio_file.flush()
-            with patch.dict(os.environ, {"V1_BASE_URL": "http://localhost:9001", "V1_API_KEY": "secret"}):
+            with patch.dict(
+                os.environ,
+                {
+                    "V1_BASE_URL": "http://localhost:9001",
+                    "V1_API_KEY": "secret",
+                    "V1_REQUEST_MODE": "transcription",
+                },
+            ):
                 with patch.object(module, "OpenAI", FakeOpenAI):
                     text = module.V1Provider().transcribe(
                         "shisa-ai/shisa-asr-v0.9b",
