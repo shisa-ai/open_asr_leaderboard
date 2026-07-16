@@ -138,5 +138,7 @@ results_bucket/*
 *.wav
 
 # results
+results/
+api/results/
 *.jsonl
 *.png

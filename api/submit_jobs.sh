@@ -3,6 +3,9 @@
 # Usage:
 #   HF_TOKEN=hf_... \
 #   OPENAI_API_KEY=... \
+#   V1_BASE_URL=http://localhost:9001/v1 \
+#   V1_ENDPOINT=http://localhost:9001/v1 \
+#   V1_API_KEY=... \
 #   ASSEMBLYAI_API_KEY=... \
 #   ELEVENLABS_API_KEY=... \
 #   REVAI_API_KEY=... \
@@ -29,6 +32,7 @@ MODEL_CONFIGS=(
     # "openai/gpt-4o-transcribe      16"
     # "openai/gpt-4o-mini-transcribe 16"
     # "openai/whisper-1              16"
+    # "v1/shisa-ai/shisa-asr-v0.9b   5"
     # "assembly/universal-3-pro      4"   # `cpu-xl` needed for spgispeech
     # "assembly/universal-3-5-pro    4"   # `cpu-xl` needed for spgispeech
     # "elevenlabs/scribe_v1          16"
@@ -82,6 +86,9 @@ for model_cfg in "${MODEL_CONFIGS[@]}"; do
             --flavor "$FLAVOR" \
             --timeout 8h \
             --env HF_TOKEN="$HF_TOKEN" \
+            --env V1_BASE_URL="$V1_BASE_URL" \
+            --env V1_ENDPOINT="$V1_ENDPOINT" \
+            --env V1_API_KEY="$V1_API_KEY" \
             --env OPENAI_API_KEY="$OPENAI_API_KEY" \
             --env ASSEMBLYAI_API_KEY="$ASSEMBLYAI_API_KEY" \
             --env ELEVENLABS_API_KEY="$ELEVENLABS_API_KEY" \

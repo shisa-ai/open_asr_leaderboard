@@ -19,6 +19,19 @@ DATASETS="librispeech:test.clean" \
 bash api/run_api.sh
 ```
 
+Generic OpenAI-compatible `/v1/audio/transcriptions` endpoint:
+```bash
+V1_BASE_URL=http://localhost:9001/v1 \
+V1_API_KEY=not-needed \
+MODEL="v1/shisa-ai/shisa-asr-v0.9b 5" \
+DATASETS="librispeech:test.clean" \
+bash api/run_api.sh
+```
+
+`V1_BASE_URL` may be provided with or without the trailing `/v1`;
+`V1_ENDPOINT` is accepted as an alias.
+Local results are written under `api/results/`, which is gitignored.
+
 Full run with bucket upload:
 ```bash
 ZOOM_API_KEY=<YOUR_KEY> MODEL="zoom/scribe_v1 32" \

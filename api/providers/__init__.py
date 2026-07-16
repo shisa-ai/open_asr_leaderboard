@@ -49,6 +49,7 @@ def get_provider(model_name: str) -> tuple[APIProvider, str]:
 from . import speechmatics_provider
 from . import assemblyai_provider
 from . import openai_provider
+from . import v1_provider
 from . import elevenlabs_provider
 from . import revai_provider
 from . import aquavoice_provider

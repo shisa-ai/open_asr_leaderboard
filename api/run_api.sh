@@ -14,6 +14,7 @@ MODEL_CONFIGS=(
     # "openai/gpt-4o-transcribe      16"
     # "openai/gpt-4o-mini-transcribe 16"
     # "openai/whisper-1              16"
+    # "v1/shisa-ai/shisa-asr-v0.9b   5"
     # "assembly/universal-3-pro      4"
     # "assembly/universal-3-5-pro    4"
     # "elevenlabs/scribe_v2          8"
@@ -80,6 +81,9 @@ for model_cfg in "${MODEL_CONFIGS[@]}"; do
             -e NUMBA_CACHE_DIR=/tmp/numba_cache \
             -e MODULATE_API_KEY="${MODULATE_API_KEY:-}" \
             -e GLADIA_API_KEY="${GLADIA_API_KEY:-}" \
+            -e V1_BASE_URL="${V1_BASE_URL:-}" \
+            -e V1_ENDPOINT="${V1_ENDPOINT:-}" \
+            -e V1_API_KEY="${V1_API_KEY:-}" \
             -e OPENAI_API_KEY="${OPENAI_API_KEY:-}" \
             -e ASSEMBLYAI_API_KEY="${ASSEMBLYAI_API_KEY:-}" \
             -e ELEVENLABS_API_KEY="${ELEVENLABS_API_KEY:-}" \

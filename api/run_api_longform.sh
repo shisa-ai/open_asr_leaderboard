@@ -4,6 +4,8 @@ export PYTHONPATH="..":$PYTHONPATH
 
 export HF_TOKEN="your_api_key"
 export OPENAI_API_KEY="your_api_key"
+export V1_BASE_URL="${V1_BASE_URL:-http://localhost:9001/v1}"
+export V1_API_KEY="${V1_API_KEY:-not-needed}"
 export ASSEMBLYAI_API_KEY="your_api_key"
 export ELEVENLABS_API_KEY="your_api_key"
 export REVAI_API_KEY="your_api_key"
@@ -15,6 +17,7 @@ MODEL_IDs=(
     "openai/gpt-4o-transcribe"
     "openai/gpt-4o-mini-transcribe"
     "openai/whisper-1"
+    # "v1/shisa-ai/shisa-asr-v0.9b"
     "assembly/universal-3-pro"
     "elevenlabs/scribe_v2"
     "revai/machine"
