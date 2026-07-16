@@ -19,6 +19,14 @@ from providers import get_provider, PermanentError
 load_dotenv()
 
 
+def get_audio_duration_from_row(row: dict) -> float:
+    if "audio_length_s" in row:
+        return row["audio_length_s"]
+    if "duration" in row:
+        return row["duration"]
+    raise KeyError("Expected row to contain either 'audio_length_s' or 'duration'.")
+
+
 def fetch_audio_urls(dataset_path, config_name, split, batch_size=100, max_retries=20):
     API_URL = "https://datasets-server.huggingface.co/rows"
 
@@ -129,7 +137,7 @@ def transcribe_dataset(
     def process_sample(sample):
         if use_url:
             reference = sample["row"]["text"].strip()
-            audio_duration = sample["row"]["audio_length_s"]
+            audio_duration = get_audio_duration_from_row(sample["row"])
             start = time.time()
             try:
                 transcription = transcribe_with_retry(
